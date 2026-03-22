@@ -1,0 +1,5 @@
+C:\Users\admin\Desktop\PropertyManagementSystem\obj\Debug\net8.0-windows\PropertyManagementSystem.csproj.AssemblyReference.cache
+C:\Users\admin\Desktop\PropertyManagementSystem\obj\Debug\net8.0-windows\PropertyManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Desktop\PropertyManagementSystem\obj\Debug\net8.0-windows\PropertyManagementSystem.AssemblyInfoInputs.cache
+C:\Users\admin\Desktop\PropertyManagementSystem\obj\Debug\net8.0-windows\PropertyManagementSystem.AssemblyInfo.cs
+C:\Users\admin\Desktop\PropertyManagementSystem\obj\Debug\net8.0-windows\PropertyManagementSystem.csproj.CoreCompileInputs.cache

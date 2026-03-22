@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "P/sjYEMuqctFS1wLwoiRaaJdklxM8jd+REjzaqXkj8B5bV8mRrU0Gi8GQxFIBxyD/ldP4UHVgaU1+lI9adbfbw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\admin\\Desktop\\PropertyManagementSystem\\PropertyManagementSystem.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\system.data.sqlite\\2.0.3\\system.data.sqlite.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
