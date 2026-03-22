@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Windows.Forms;
 using PropertyManagementSystem.Data;
-using PropertyManagementSystem.Models.Forms;
+using PropertyManagementSystem.Helpers;
 
 namespace PropertyManagementSystem.Forms
 {
     public partial class MainForm : Form
     {
         private DatabaseHelper db;
+        private AuthHelper auth;
+        private TabControl mainTabControl;
 
-        public MainForm()
+        public MainForm(DatabaseHelper database, AuthHelper authHelper)
         {
+            db = database;
+            auth = authHelper;
             InitializeComponent();
-            db = new DatabaseHelper();
+            UpdateUIForUser();
+        }
+
+        private void UpdateUIForUser()
+        {
+            this.Text = $"Property Management System - Welcome {auth.CurrentUser.FullName} ({auth.CurrentUser.Role})";
         }
 
         private void InitializeComponent()
@@ -26,8 +35,19 @@ namespace PropertyManagementSystem.Forms
 
             // File menu
             ToolStripMenuItem fileMenu = new ToolStripMenuItem("File");
+            ToolStripMenuItem logoutItem = new ToolStripMenuItem("Logout");
+            logoutItem.Click += (s, e) => {
+                auth.Logout();
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
+                this.Close();
+            };
+
             ToolStripMenuItem exitItem = new ToolStripMenuItem("Exit");
             exitItem.Click += (s, e) => Application.Exit();
+
+            fileMenu.DropDownItems.Add(logoutItem);
+            fileMenu.DropDownItems.Add(new ToolStripSeparator());
             fileMenu.DropDownItems.Add(exitItem);
 
             // Management menu
@@ -37,10 +57,10 @@ namespace PropertyManagementSystem.Forms
             ToolStripMenuItem leasesItem = new ToolStripMenuItem("Leases");
             ToolStripMenuItem paymentsItem = new ToolStripMenuItem("Payments");
 
-            propertiesItem.Click += PropertiesItem_Click;
-            tenantsItem.Click += TenantsItem_Click;
-            leasesItem.Click += LeasesItem_Click;
-            paymentsItem.Click += PaymentsItem_Click;
+            propertiesItem.Click += (s, e) => ShowPropertiesTab();
+            tenantsItem.Click += (s, e) => ShowTenantsTab();
+            leasesItem.Click += (s, e) => ShowLeasesTab();
+            paymentsItem.Click += (s, e) => ShowPaymentsTab();
 
             manageMenu.DropDownItems.AddRange(new ToolStripMenuItem[] {
                 propertiesItem, tenantsItem, leasesItem, paymentsItem
@@ -50,50 +70,72 @@ namespace PropertyManagementSystem.Forms
             ToolStripMenuItem reportsMenu = new ToolStripMenuItem("Reports");
             ToolStripMenuItem rentRollItem = new ToolStripMenuItem("Rent Roll");
             ToolStripMenuItem vacancyReportItem = new ToolStripMenuItem("Vacancy Report");
+            rentRollItem.Click += (s, e) => ShowRentRollReport();
+            vacancyReportItem.Click += (s, e) => ShowVacancyReport();
             reportsMenu.DropDownItems.AddRange(new ToolStripMenuItem[] {
                 rentRollItem, vacancyReportItem
             });
 
+            // Admin menu (visible only for admin)
+            if (auth.IsAdmin)
+            {
+                ToolStripMenuItem adminMenu = new ToolStripMenuItem("Admin");
+                ToolStripMenuItem usersItem = new ToolStripMenuItem("Manage Users");
+                usersItem.Click += (s, e) => ShowUserManagement();
+                adminMenu.DropDownItems.Add(usersItem);
+                menuStrip.Items.Add(adminMenu);
+            }
+
+            // Help menu
+            ToolStripMenuItem helpMenu = new ToolStripMenuItem("Help");
+            ToolStripMenuItem aboutItem = new ToolStripMenuItem("About");
+            aboutItem.Click += (s, e) => ShowAbout();
+            helpMenu.DropDownItems.Add(aboutItem);
+
             menuStrip.Items.AddRange(new ToolStripMenuItem[] {
-                fileMenu, manageMenu, reportsMenu
+                fileMenu, manageMenu, reportsMenu, helpMenu
             });
 
             this.MainMenuStrip = menuStrip;
             this.Controls.Add(menuStrip);
 
             // Create TabControl for main content
-            TabControl tabControl = new TabControl
+            mainTabControl = new TabControl
             {
                 Dock = DockStyle.Fill,
-                Padding = new System.Drawing.Point(10, 5)
+                Padding = new System.Drawing.Point(10, 5),
+                Name = "mainTabControl"
             };
 
             // Dashboard Tab
             TabPage dashboardPage = new TabPage("Dashboard");
             CreateDashboard(dashboardPage);
-            tabControl.TabPages.Add(dashboardPage);
+            mainTabControl.TabPages.Add(dashboardPage);
 
             // Properties Tab
             TabPage propertiesPage = new TabPage("Properties");
             CreatePropertiesView(propertiesPage);
-            tabControl.TabPages.Add(propertiesPage);
+            mainTabControl.TabPages.Add(propertiesPage);
 
             // Tenants Tab
             TabPage tenantsPage = new TabPage("Tenants");
             CreateTenantsView(tenantsPage);
-            tabControl.TabPages.Add(tenantsPage);
+            mainTabControl.TabPages.Add(tenantsPage);
 
             // Leases Tab
             TabPage leasesPage = new TabPage("Leases");
             CreateLeasesView(leasesPage);
-            tabControl.TabPages.Add(leasesPage);
+            mainTabControl.TabPages.Add(leasesPage);
 
             // Payments Tab
             TabPage paymentsPage = new TabPage("Payments");
             CreatePaymentsView(paymentsPage);
-            tabControl.TabPages.Add(paymentsPage);
+            mainTabControl.TabPages.Add(paymentsPage);
 
-            this.Controls.Add(tabControl);
+            this.Controls.Add(mainTabControl);
+
+            // Set dashboard as active tab
+            mainTabControl.SelectedIndex = 0;
         }
 
         private void CreateDashboard(TabPage page)
@@ -121,13 +163,47 @@ namespace PropertyManagementSystem.Forms
                 Padding = new Padding(10)
             };
 
-            // Add statistics labels
-            Label totalProperties = new Label { Text = "Total Properties: 0", Font = new Font("Arial", 12, FontStyle.Bold), AutoSize = true };
-            Label occupiedProperties = new Label { Text = "Occupied Properties: 0", Font = new Font("Arial", 12, FontStyle.Bold), AutoSize = true };
-            Label totalTenants = new Label { Text = "Total Tenants: 0", Font = new Font("Arial", 12, FontStyle.Bold), AutoSize = true };
-            Label monthlyIncome = new Label { Text = "Monthly Income: $0", Font = new Font("Arial", 12, FontStyle.Bold), AutoSize = true };
+            // Get real statistics from database
+            int totalProps = db.GetTotalProperties();
+            int occupiedProps = db.GetOccupiedProperties();
+            int totalTenants = db.GetTotalTenants();
+            decimal monthlyIncome = db.GetMonthlyIncome();
 
-            statsPanel.Controls.AddRange(new Control[] { totalProperties, occupiedProperties, totalTenants, monthlyIncome });
+            int occupancyPercentage = totalProps > 0 ? (occupiedProps * 100 / totalProps) : 0;
+
+            Label totalProperties = new Label
+            {
+                Text = $"Total Properties: {totalProps}",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                AutoSize = true,
+                Margin = new Padding(5)
+            };
+
+            Label occupiedProperties = new Label
+            {
+                Text = $"Occupied Properties: {occupiedProps} ({occupancyPercentage}%)",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                AutoSize = true,
+                Margin = new Padding(5)
+            };
+
+            Label totalTenantsLabel = new Label
+            {
+                Text = $"Total Tenants: {totalTenants}",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                AutoSize = true,
+                Margin = new Padding(5)
+            };
+
+            Label monthlyIncomeLabel = new Label
+            {
+                Text = $"Monthly Income: ${monthlyIncome:N2}",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                AutoSize = true,
+                Margin = new Padding(5)
+            };
+
+            statsPanel.Controls.AddRange(new Control[] { totalProperties, occupiedProperties, totalTenantsLabel, monthlyIncomeLabel });
             statsBox.Controls.Add(statsPanel);
 
             // Recent Activities
@@ -137,12 +213,17 @@ namespace PropertyManagementSystem.Forms
                 Font = new Font("Arial", 10)
             };
 
-            recentActivities.Items.Add("Welcome to Property Management System");
-            recentActivities.Items.Add("Add properties, tenants, and manage leases");
+            recentActivities.Items.Add($"Welcome {auth.CurrentUser.FullName}!");
+            recentActivities.Items.Add($"Last login: {DateTime.Now:MM/dd/yyyy HH:mm}");
+            recentActivities.Items.Add($"---");
+            recentActivities.Items.Add($"Total Properties: {totalProps}");
+            recentActivities.Items.Add($"Active Leases: {occupiedProps}");
+            recentActivities.Items.Add($"Monthly Revenue: ${monthlyIncome:N2}");
+            recentActivities.Items.Add($"Occupancy Rate: {occupancyPercentage}%");
 
             GroupBox activitiesBox = new GroupBox
             {
-                Text = "Recent Activities",
+                Text = "Welcome & Summary",
                 Dock = DockStyle.Fill,
                 Margin = new Padding(5)
             };
@@ -151,17 +232,27 @@ namespace PropertyManagementSystem.Forms
             layout.Controls.Add(statsBox, 0, 0);
             layout.Controls.Add(activitiesBox, 1, 0);
 
-            // Add upcoming payments
+            // Upcoming payments
             DataGridView upcomingPayments = new DataGridView
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true
+                ReadOnly = true,
+                AllowUserToAddRows = false
             };
+
+            try
+            {
+                upcomingPayments.DataSource = db.GetUpcomingPayments();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading payments: {ex.Message}");
+            }
 
             GroupBox paymentsBox = new GroupBox
             {
-                Text = "Upcoming Payments",
+                Text = "Upcoming Rent Due",
                 Dock = DockStyle.Fill,
                 Margin = new Padding(5)
             };
@@ -179,11 +270,20 @@ namespace PropertyManagementSystem.Forms
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                Name = "dgvProperties"
             };
 
             // Load properties data
-            dgvProperties.DataSource = db.GetAllProperties();
+            try
+            {
+                dgvProperties.DataSource = db.GetAllProperties();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading properties: {ex.Message}");
+            }
 
             // Add buttons panel
             Panel buttonPanel = new Panel
@@ -200,27 +300,24 @@ namespace PropertyManagementSystem.Forms
                 Size = new System.Drawing.Size(100, 30)
             };
             btnAdd.Click += (s, e) => {
-                PropertyForm propertyForm = new PropertyForm(db);
-                propertyForm.ShowDialog();
-                dgvProperties.DataSource = db.GetAllProperties();
+                PropertyForm propertyForm = new PropertyForm(db, auth);
+                if (propertyForm.ShowDialog() == DialogResult.OK)
+                {
+                    dgvProperties.DataSource = db.GetAllProperties();
+                }
             };
 
-            Button btnEdit = new Button
+            Button btnRefresh = new Button
             {
-                Text = "Edit Property",
+                Text = "Refresh",
                 Location = new System.Drawing.Point(110, 5),
                 Size = new System.Drawing.Size(100, 30)
             };
-
-            Button btnDelete = new Button
-            {
-                Text = "Delete Property",
-                Location = new System.Drawing.Point(215, 5),
-                Size = new System.Drawing.Size(100, 30),
-                BackColor = System.Drawing.Color.LightCoral
+            btnRefresh.Click += (s, e) => {
+                dgvProperties.DataSource = db.GetAllProperties();
             };
 
-            buttonPanel.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnDelete });
+            buttonPanel.Controls.AddRange(new Control[] { btnAdd, btnRefresh });
 
             page.Controls.Add(dgvProperties);
             page.Controls.Add(buttonPanel);
@@ -232,10 +329,19 @@ namespace PropertyManagementSystem.Forms
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                Name = "dgvTenants"
             };
 
-            dgvTenants.DataSource = db.GetAllTenants();
+            try
+            {
+                dgvTenants.DataSource = db.GetAllTenants();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading tenants: {ex.Message}");
+            }
 
             Panel buttonPanel = new Panel
             {
@@ -251,12 +357,24 @@ namespace PropertyManagementSystem.Forms
                 Size = new System.Drawing.Size(100, 30)
             };
             btnAdd.Click += (s, e) => {
-                TenantForm tenantForm = new TenantForm(db);
-                tenantForm.ShowDialog();
+                TenantForm tenantForm = new TenantForm(db, auth);
+                if (tenantForm.ShowDialog() == DialogResult.OK)
+                {
+                    dgvTenants.DataSource = db.GetAllTenants();
+                }
+            };
+
+            Button btnRefresh = new Button
+            {
+                Text = "Refresh",
+                Location = new System.Drawing.Point(110, 5),
+                Size = new System.Drawing.Size(100, 30)
+            };
+            btnRefresh.Click += (s, e) => {
                 dgvTenants.DataSource = db.GetAllTenants();
             };
 
-            buttonPanel.Controls.Add(btnAdd);
+            buttonPanel.Controls.AddRange(new Control[] { btnAdd, btnRefresh });
 
             page.Controls.Add(dgvTenants);
             page.Controls.Add(buttonPanel);
@@ -268,8 +386,19 @@ namespace PropertyManagementSystem.Forms
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                Name = "dgvLeases"
             };
+
+            try
+            {
+                dgvLeases.DataSource = db.GetAllLeases();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading leases: {ex.Message}");
+            }
 
             Panel buttonPanel = new Panel
             {
@@ -285,11 +414,24 @@ namespace PropertyManagementSystem.Forms
                 Size = new System.Drawing.Size(100, 30)
             };
             btnAdd.Click += (s, e) => {
-                LeaseForm leaseForm = new LeaseForm(db);
-                leaseForm.ShowDialog();
+                LeaseForm leaseForm = new LeaseForm(db, auth);
+                if (leaseForm.ShowDialog() == DialogResult.OK)
+                {
+                    dgvLeases.DataSource = db.GetAllLeases();
+                }
             };
 
-            buttonPanel.Controls.Add(btnAdd);
+            Button btnRefresh = new Button
+            {
+                Text = "Refresh",
+                Location = new System.Drawing.Point(110, 5),
+                Size = new System.Drawing.Size(100, 30)
+            };
+            btnRefresh.Click += (s, e) => {
+                dgvLeases.DataSource = db.GetAllLeases();
+            };
+
+            buttonPanel.Controls.AddRange(new Control[] { btnAdd, btnRefresh });
 
             page.Controls.Add(dgvLeases);
             page.Controls.Add(buttonPanel);
@@ -301,8 +443,19 @@ namespace PropertyManagementSystem.Forms
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                Name = "dgvPayments"
             };
+
+            try
+            {
+                dgvPayments.DataSource = db.GetAllPayments();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading payments: {ex.Message}");
+            }
 
             Panel buttonPanel = new Panel
             {
@@ -318,34 +471,83 @@ namespace PropertyManagementSystem.Forms
                 Size = new System.Drawing.Size(120, 30)
             };
             btnAdd.Click += (s, e) => {
-                PaymentForm paymentForm = new PaymentForm(db);
-                paymentForm.ShowDialog();
+                PaymentForm paymentForm = new PaymentForm(db, auth);
+                if (paymentForm.ShowDialog() == DialogResult.OK)
+                {
+                    dgvPayments.DataSource = db.GetAllPayments();
+                }
             };
 
-            buttonPanel.Controls.Add(btnAdd);
+            Button btnRefresh = new Button
+            {
+                Text = "Refresh",
+                Location = new System.Drawing.Point(130, 5),
+                Size = new System.Drawing.Size(100, 30)
+            };
+            btnRefresh.Click += (s, e) => {
+                dgvPayments.DataSource = db.GetAllPayments();
+            };
+
+            buttonPanel.Controls.AddRange(new Control[] { btnAdd, btnRefresh });
 
             page.Controls.Add(dgvPayments);
             page.Controls.Add(buttonPanel);
         }
 
-        private void PropertiesItem_Click(object sender, EventArgs e)
+        private void ShowPropertiesTab()
         {
-            // Switch to properties tab
+            if (mainTabControl != null && mainTabControl.TabPages.Count > 1)
+            {
+                mainTabControl.SelectedIndex = 1;
+            }
         }
 
-        private void TenantsItem_Click(object sender, EventArgs e)
+        private void ShowTenantsTab()
         {
-            // Switch to tenants tab
+            if (mainTabControl != null && mainTabControl.TabPages.Count > 2)
+            {
+                mainTabControl.SelectedIndex = 2;
+            }
         }
 
-        private void LeasesItem_Click(object sender, EventArgs e)
+        private void ShowLeasesTab()
         {
-            // Switch to leases tab
+            if (mainTabControl != null && mainTabControl.TabPages.Count > 3)
+            {
+                mainTabControl.SelectedIndex = 3;
+            }
         }
 
-        private void PaymentsItem_Click(object sender, EventArgs e)
+        private void ShowPaymentsTab()
         {
-            // Switch to payments tab
+            if (mainTabControl != null && mainTabControl.TabPages.Count > 4)
+            {
+                mainTabControl.SelectedIndex = 4;
+            }
+        }
+
+        private void ShowRentRollReport()
+        {
+            MessageBox.Show("Rent Roll Report - Coming soon!", "Report",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ShowVacancyReport()
+        {
+            MessageBox.Show("Vacancy Report - Coming soon!", "Report",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ShowUserManagement()
+        {
+            MessageBox.Show("User Management - Coming soon!", "Admin",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ShowAbout()
+        {
+            MessageBox.Show("Property Management System\nVersion 1.0\n\nDeveloped for efficient property management\n\nLogged in as: " + auth.CurrentUser.FullName,
+                "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

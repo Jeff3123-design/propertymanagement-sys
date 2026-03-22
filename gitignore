@@ -1,0 +1,48 @@
+# Visual Studio temporary files
+.vs/
+.vscode/
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# NuGet packages
+packages/
+*.nupkg
+
+# Visual Studio cache files
+*.vsidx
+*.v2
+*.suo
+*.df
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+[Bb]in/
+[Oo]bj/
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+
+# Logs
+*.log
+*.txt

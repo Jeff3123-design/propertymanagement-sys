@@ -9,17 +9,17 @@ namespace PropertyManagementSystem.Models
 
         [Required]
         [StringLength(50)]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required]
-        public string PasswordHash { get; set; } // Store hashed password
+        public string? PasswordHash { get; set; }
 
-        public string FullName { get; set; }
-        public string Role { get; set; } // Admin, Manager, Staff
+        public string? FullName { get; set; }
+        public string? Role { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastLoginDate { get; set; }
@@ -35,10 +35,10 @@ namespace PropertyManagementSystem.Models
     public class LoginModel
     {
         [Required]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         public bool RememberMe { get; set; }
     }

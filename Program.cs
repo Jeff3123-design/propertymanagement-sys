@@ -11,7 +11,9 @@ namespace PropertyManagementSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            // Show login form first
+            Application.Run(new LoginForm());
         }
     }
 }

@@ -12,9 +12,9 @@ namespace PropertyManagementSystem.Forms
 
         public LoginForm()
         {
-            InitializeComponent();
             db = new DatabaseHelper();
             auth = new AuthHelper(db);
+            InitializeComponent();
         }
 
         private void InitializeComponent()
@@ -47,6 +47,7 @@ namespace PropertyManagementSystem.Forms
 
             TextBox txtUsername = new TextBox
             {
+                Name = "txtUsername",
                 Location = new System.Drawing.Point(150, 80),
                 Size = new System.Drawing.Size(200, 25),
                 Font = new Font("Arial", 10)
@@ -63,6 +64,7 @@ namespace PropertyManagementSystem.Forms
 
             TextBox txtPassword = new TextBox
             {
+                Name = "txtPassword",
                 Location = new System.Drawing.Point(150, 120),
                 Size = new System.Drawing.Size(200, 25),
                 Font = new Font("Arial", 10),

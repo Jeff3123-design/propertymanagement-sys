@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PropertyManagementSystem.Models
@@ -21,14 +22,14 @@ namespace PropertyManagementSystem.Models
 
         public decimal MonthlyRent { get; set; }
         public decimal SecurityDepositPaid { get; set; }
-        public string Status { get; set; } // Active, Expired, Terminated
-        public string Terms { get; set; }
+        public string? Status { get; set; }
+        public string? Terms { get; set; }
         public DateTime DateCreated { get; set; }
 
         // Navigation properties
-        public virtual Property Property { get; set; }
-        public virtual Tenant Tenant { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual Property? Property { get; set; }
+        public virtual Tenant? Tenant { get; set; }
+        public virtual ICollection<Payment>? Payments { get; set; }
 
         public Lease()
         {

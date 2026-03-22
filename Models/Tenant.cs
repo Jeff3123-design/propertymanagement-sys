@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PropertyManagementSystem.Models
@@ -9,32 +10,32 @@ namespace PropertyManagementSystem.Models
 
         [Required]
         [StringLength(100)]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required]
         [Phone]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
-        public string EmergencyContactName { get; set; }
-        public string EmergencyContactPhone { get; set; }
+        public string? EmergencyContactName { get; set; }
+        public string? EmergencyContactPhone { get; set; }
 
         [Required]
         public DateTime DateOfBirth { get; set; }
 
-        public string Occupation { get; set; }
+        public string? Occupation { get; set; }
         public decimal MonthlyIncome { get; set; }
         public DateTime DateAdded { get; set; }
 
         // Navigation property
-        public virtual ICollection<Lease> Leases { get; set; }
+        public virtual ICollection<Lease>? Leases { get; set; }
 
         public Tenant()
         {

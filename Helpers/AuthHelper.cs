@@ -11,16 +11,16 @@ namespace PropertyManagementSystem.Helpers
     public class AuthHelper
     {
         private readonly DatabaseHelper _db;
-        private User _currentUser;
+        private User? _currentUser;
 
         public AuthHelper(DatabaseHelper db)
         {
             _db = db;
         }
 
-        public User CurrentUser => _currentUser;
+        public User? CurrentUser => _currentUser;
         public bool IsAuthenticated => _currentUser != null;
-        public bool IsAdmin => IsAuthenticated && _currentUser.Role == "Admin";
+        public bool IsAdmin => IsAuthenticated && _currentUser?.Role == "Admin";
 
         // Hash password using SHA256
         public static string HashPassword(string password)
@@ -51,10 +51,10 @@ namespace PropertyManagementSystem.Helpers
                 _currentUser = new User
                 {
                     UserId = Convert.ToInt32(result.Rows[0]["UserId"]),
-                    Username = result.Rows[0]["Username"].ToString(),
-                    Email = result.Rows[0]["Email"].ToString(),
-                    FullName = result.Rows[0]["FullName"].ToString(),
-                    Role = result.Rows[0]["Role"].ToString(),
+                    Username = result.Rows[0]["Username"]?.ToString() ?? "",
+                    Email = result.Rows[0]["Email"]?.ToString() ?? "",
+                    FullName = result.Rows[0]["FullName"]?.ToString() ?? "",
+                    Role = result.Rows[0]["Role"]?.ToString() ?? "Staff",
                     IsActive = Convert.ToBoolean(result.Rows[0]["IsActive"])
                 };
 
@@ -71,7 +71,7 @@ namespace PropertyManagementSystem.Helpers
         {
             // Check if username exists
             string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username = @username";
-            var checkParams = new SQLiteParameter[] { new SQLiteParameter("@username", user.Username) };
+            var checkParams = new SQLiteParameter[] { new SQLiteParameter("@username", user.Username ?? "") };
             int count = Convert.ToInt32(_db.ExecuteScalar(checkQuery, checkParams));
 
             if (count > 0)
@@ -83,10 +83,10 @@ namespace PropertyManagementSystem.Helpers
 
             var parameters = new SQLiteParameter[]
             {
-                new SQLiteParameter("@username", user.Username),
-                new SQLiteParameter("@email", user.Email),
+                new SQLiteParameter("@username", user.Username ?? ""),
+                new SQLiteParameter("@email", user.Email ?? ""),
                 new SQLiteParameter("@passwordHash", HashPassword(password)),
-                new SQLiteParameter("@fullName", user.FullName ?? user.Username),
+                new SQLiteParameter("@fullName", user.FullName ?? user.Username ?? ""),
                 new SQLiteParameter("@role", user.Role ?? "Staff"),
                 new SQLiteParameter("@isActive", true),
                 new SQLiteParameter("@createdDate", DateTime.Now)
