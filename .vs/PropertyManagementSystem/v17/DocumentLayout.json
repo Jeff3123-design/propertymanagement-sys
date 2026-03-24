@@ -3,64 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\data\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:data\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\helpers\\authhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:helpers\\authhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\models\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:models\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\models\\lease.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:models\\lease.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\models\\tenant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:models\\tenant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\helpers\\colorhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:helpers\\colorhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\paymentform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\paymentform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\models\\property.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:models\\property.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\leaseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\leaseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\tenantform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\tenantform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\helpers\\authhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:helpers\\authhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\propertyform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\propertyform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\data\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:data\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,188 +42,111 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "gitignore",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\gitignore",
-              "RelativeDocumentMoniker": "gitignore",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\gitignore",
-              "RelativeToolTip": "gitignore",
-              "ViewState": "AQIAABAAAACgmZmZmZkdwC8AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-03-22T11:38:27.549Z"
+              "Title": "RegisterForm.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "Forms\\RegisterForm.cs",
+              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\RegisterForm.cs",
+              "RelativeToolTip": "Forms\\RegisterForm.cs",
+              "ViewState": "AQIAAO4AAAAAAAAAAAAuwP8AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-24T09:44:31.239Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "ColorHelper.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Helpers\\ColorHelper.cs",
+              "RelativeDocumentMoniker": "Helpers\\ColorHelper.cs",
+              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Helpers\\ColorHelper.cs",
+              "RelativeToolTip": "Helpers\\ColorHelper.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAuwB0AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-24T09:42:38.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthHelper.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Helpers\\AuthHelper.cs",
+              "RelativeDocumentMoniker": "Helpers\\AuthHelper.cs",
+              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Helpers\\AuthHelper.cs",
+              "RelativeToolTip": "Helpers\\AuthHelper.cs",
+              "ViewState": "AQIAAHsAAAAAAAAAAAAuwIwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-24T09:30:09.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "DatabaseHelper.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Data\\DatabaseHelper.cs",
               "RelativeDocumentMoniker": "Data\\DatabaseHelper.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Data\\DatabaseHelper.cs",
               "RelativeToolTip": "Data\\DatabaseHelper.cs",
-              "ViewState": "AQIAAMUAAAAAAAAAAAAIwNUAAAAAAAAA",
+              "ViewState": "AQIAACsCAAAAAAAAAAAuwDwCAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-22T11:13:09.236Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AuthHelper.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Helpers\\AuthHelper.cs",
-              "RelativeDocumentMoniker": "Helpers\\AuthHelper.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Helpers\\AuthHelper.cs",
-              "RelativeToolTip": "Helpers\\AuthHelper.cs",
-              "ViewState": "AQIAAHUAAAAAAAAAAAAQwIwAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T11:07:47.826Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAQwCwAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T11:07:07.78Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Payment.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Payment.cs",
-              "RelativeDocumentMoniker": "Models\\Payment.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Payment.cs",
-              "RelativeToolTip": "Models\\Payment.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAQwCMAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T11:06:40.548Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Lease.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Lease.cs",
-              "RelativeDocumentMoniker": "Models\\Lease.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Lease.cs",
-              "RelativeToolTip": "Models\\Lease.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAQwCsAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T11:06:10.749Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Tenant.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Tenant.cs",
-              "RelativeDocumentMoniker": "Models\\Tenant.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Tenant.cs",
-              "RelativeToolTip": "Models\\Tenant.cs",
-              "ViewState": "AQIAABgAAAAAAAAAAAAQwC8AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T11:05:06.133Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Property.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Property.cs",
-              "RelativeDocumentMoniker": "Models\\Property.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Models\\Property.cs",
-              "RelativeToolTip": "Models\\Property.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAQwCwAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T11:03:23.848Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 0,
               "Title": "MainForm.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\MainForm.cs",
               "RelativeDocumentMoniker": "Forms\\MainForm.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\MainForm.cs",
               "RelativeToolTip": "Forms\\MainForm.cs",
-              "ViewState": "AQIAABECAAAAAAAAAAAQwCgCAAABAAAA",
+              "ViewState": "AQIAADADAAAAAAAAAAAuwEEDAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:53:46.573Z"
+              "WhenOpened": "2026-03-22T10:53:46.573Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:42:18.377Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\LoginForm.cs",
               "RelativeDocumentMoniker": "Forms\\LoginForm.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\LoginForm.cs",
               "RelativeToolTip": "Forms\\LoginForm.cs",
-              "ViewState": "AQIAAH0AAAAAAAAAAAAQwJQAAAABAAAA",
+              "ViewState": "AQIAALIAAAAAAAAAAAAuwMMAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:53:06.832Z"
+              "WhenOpened": "2026-03-22T10:53:06.832Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "PaymentForm.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\PaymentForm.cs",
               "RelativeDocumentMoniker": "Forms\\PaymentForm.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\PaymentForm.cs",
               "RelativeToolTip": "Forms\\PaymentForm.cs",
-              "ViewState": "AQIAABgBAAAAAAAAAAAQwC8BAAABAAAA",
+              "ViewState": "AQIAAB8BAAAAAAAAAAAuwDABAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:41:28.046Z"
+              "WhenOpened": "2026-03-22T10:41:28.046Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 5,
               "Title": "LeaseForm.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\LeaseForm.cs",
               "RelativeDocumentMoniker": "Forms\\LeaseForm.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\LeaseForm.cs",
               "RelativeToolTip": "Forms\\LeaseForm.cs",
-              "ViewState": "AQIAACsBAAAAAAAAAAAQwEIBAAABAAAA",
+              "ViewState": "AQIAADIBAAAAAAAAAAAuwEMBAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:39:46.496Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TenantForm.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\TenantForm.cs",
-              "RelativeDocumentMoniker": "Forms\\TenantForm.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\TenantForm.cs",
-              "RelativeToolTip": "Forms\\TenantForm.cs",
-              "ViewState": "AQIAAN0AAAAAAAAAAAAQwPQAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:39:03.556Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "PropertyForm.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\PropertyForm.cs",
-              "RelativeDocumentMoniker": "Forms\\PropertyForm.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\PropertyForm.cs",
-              "RelativeToolTip": "Forms\\PropertyForm.cs",
-              "ViewState": "AQIAADABAAAAAAAAAAAQwEcBAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:36:52.796Z"
+              "WhenOpened": "2026-03-22T10:39:46.496Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using Microsoft.Data.Sqlite;
 using PropertyManagementSystem.Data;
 using PropertyManagementSystem.Helpers;
 using PropertyManagementSystem.Models;
@@ -184,7 +185,7 @@ namespace PropertyManagementSystem.Forms
                     {
                         int propertyId = Convert.ToInt32(cboProperty.SelectedValue);
                         DataTable propData = db.ExecuteQuery("SELECT MonthlyRent, SecurityDeposit FROM Properties WHERE PropertyId = @id",
-                            new System.Data.SQLite.SQLiteParameter[] { new System.Data.SQLite.SQLiteParameter("@id", propertyId) });
+                            new SqliteParameter[] { new SqliteParameter("@id", propertyId) });
 
                         if (propData.Rows.Count > 0 && propData.Rows[0]["MonthlyRent"] != DBNull.Value)
                         {

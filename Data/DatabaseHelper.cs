@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
 using System.IO;
 using System.Windows.Forms;
-using PropertyManagementSystem.Helpers;
+using Microsoft.Data.Sqlite;
 using PropertyManagementSystem.Models;
+using PropertyManagementSystem.Helpers;
 
 namespace PropertyManagementSystem.Data
 {
@@ -16,15 +16,26 @@ namespace PropertyManagementSystem.Data
         public DatabaseHelper()
         {
             string dbPath = Path.Combine(Application.StartupPath, "PropertyManagement.db");
-            connectionString = $"Data Source={dbPath};Version=3;";
-            InitializeDatabase();
+            connectionString = $"Data Source={dbPath}";
+
+            try
+            {
+                InitializeDatabase();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database initialization error: {ex.Message}\n\nPath: {dbPath}",
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
         }
 
         private void InitializeDatabase()
         {
-            if (!File.Exists("PropertyManagement.db"))
+            string dbPath = Path.Combine(Application.StartupPath, "PropertyManagement.db");
+
+            if (!File.Exists(dbPath))
             {
-                SQLiteConnection.CreateFile("PropertyManagement.db");
                 CreateTables();
                 CreateDefaultAdminUser();
                 InsertSampleData();
@@ -33,7 +44,7 @@ namespace PropertyManagementSystem.Data
 
         private void CreateTables()
         {
-            using (var conn = new SQLiteConnection(connectionString))
+            using (var conn = new SqliteConnection(connectionString))
             {
                 conn.Open();
 
@@ -117,15 +128,19 @@ namespace PropertyManagementSystem.Data
                         FOREIGN KEY(LeaseId) REFERENCES Leases(LeaseId)
                     )";
 
-                using (var cmd = new SQLiteCommand(createUsers, conn))
+                using (var cmd = new SqliteCommand(createUsers, conn))
                     cmd.ExecuteNonQuery();
-                using (var cmd = new SQLiteCommand(createProperties, conn))
+
+                using (var cmd = new SqliteCommand(createProperties, conn))
                     cmd.ExecuteNonQuery();
-                using (var cmd = new SQLiteCommand(createTenants, conn))
+
+                using (var cmd = new SqliteCommand(createTenants, conn))
                     cmd.ExecuteNonQuery();
-                using (var cmd = new SQLiteCommand(createLeases, conn))
+
+                using (var cmd = new SqliteCommand(createLeases, conn))
                     cmd.ExecuteNonQuery();
-                using (var cmd = new SQLiteCommand(createPayments, conn))
+
+                using (var cmd = new SqliteCommand(createPayments, conn))
                     cmd.ExecuteNonQuery();
 
                 conn.Close();
@@ -134,109 +149,152 @@ namespace PropertyManagementSystem.Data
 
         private void CreateDefaultAdminUser()
         {
-            string hashedPassword = AuthHelper.HashPassword("admin123");
-            string query = @"INSERT INTO Users (Username, Email, PasswordHash, FullName, Role, IsActive, CreatedDate)
-                            VALUES (@username, @email, @password, @fullName, @role, @isActive, @createdDate)";
-
-            var parameters = new SQLiteParameter[]
+            try
             {
-                new SQLiteParameter("@username", "admin"),
-                new SQLiteParameter("@email", "admin@property.com"),
-                new SQLiteParameter("@password", hashedPassword),
-                new SQLiteParameter("@fullName", "System Administrator"),
-                new SQLiteParameter("@role", "Admin"),
-                new SQLiteParameter("@isActive", 1),
-                new SQLiteParameter("@createdDate", DateTime.Now)
-            };
+                string hashedPassword = AuthHelper.HashPassword("admin123");
+                string query = @"INSERT INTO Users (Username, Email, PasswordHash, FullName, Role, IsActive, CreatedDate)
+                                VALUES (@username, @email, @password, @fullName, @role, @isActive, @createdDate)";
 
-            ExecuteNonQuery(query, parameters);
+                using (var conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    using (var cmd = new SqliteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@username", "admin");
+                        cmd.Parameters.AddWithValue("@email", "admin@property.com");
+                        cmd.Parameters.AddWithValue("@password", hashedPassword);
+                        cmd.Parameters.AddWithValue("@fullName", "System Administrator");
+                        cmd.Parameters.AddWithValue("@role", "Admin");
+                        cmd.Parameters.AddWithValue("@isActive", 1);
+                        cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error creating admin user: {ex.Message}");
+            }
         }
 
         private void InsertSampleData()
         {
-            // Insert sample properties
-            var properties = new List<Property>
+            try
             {
-                new Property { Address = "123 Main St", City = "Springfield", PostalCode = "62701",
-                    PropertyType = "Apartment", Bedrooms = 2, Bathrooms = 1, SquareFootage = 850,
-                    MonthlyRent = 1200, SecurityDeposit = 1200, Description = "Cozy 2-bedroom apartment" },
+                // Insert sample properties
+                var properties = new List<Property>
+                {
+                    new Property { Address = "123 Main St", City = "Springfield", PostalCode = "62701",
+                        PropertyType = "Apartment", Bedrooms = 2, Bathrooms = 1, SquareFootage = 850,
+                        MonthlyRent = 1200, SecurityDeposit = 1200, Description = "Cozy 2-bedroom apartment" },
 
-                new Property { Address = "456 Oak Ave", City = "Springfield", PostalCode = "62702",
-                    PropertyType = "House", Bedrooms = 3, Bathrooms = 2, SquareFootage = 1500,
-                    MonthlyRent = 1800, SecurityDeposit = 1800, Description = "Spacious family home" }
-            };
+                    new Property { Address = "456 Oak Ave", City = "Springfield", PostalCode = "62702",
+                        PropertyType = "House", Bedrooms = 3, Bathrooms = 2, SquareFootage = 1500,
+                        MonthlyRent = 1800, SecurityDeposit = 1800, Description = "Spacious family home" }
+                };
 
-            foreach (var prop in properties)
-            {
-                AddProperty(prop);
+                foreach (var prop in properties)
+                {
+                    AddProperty(prop);
+                }
+
+                // Insert sample tenants
+                var tenants = new List<Tenant>
+                {
+                    new Tenant { FirstName = "John", LastName = "Doe", Email = "john@example.com",
+                        PhoneNumber = "555-0101", EmergencyContactName = "Jane Doe",
+                        EmergencyContactPhone = "555-0102", DateOfBirth = new DateTime(1985, 5, 15),
+                        Occupation = "Software Developer", MonthlyIncome = 5000 },
+
+                    new Tenant { FirstName = "Sarah", LastName = "Smith", Email = "sarah@example.com",
+                        PhoneNumber = "555-0103", EmergencyContactName = "Mike Smith",
+                        EmergencyContactPhone = "555-0104", DateOfBirth = new DateTime(1990, 8, 22),
+                        Occupation = "Teacher", MonthlyIncome = 4200 }
+                };
+
+                foreach (var tenant in tenants)
+                {
+                    AddTenant(tenant);
+                }
             }
-
-            // Insert sample tenants
-            var tenants = new List<Tenant>
+            catch (Exception ex)
             {
-                new Tenant { FirstName = "John", LastName = "Doe", Email = "john@example.com",
-                    PhoneNumber = "555-0101", EmergencyContactName = "Jane Doe",
-                    EmergencyContactPhone = "555-0102", DateOfBirth = new DateTime(1985, 5, 15),
-                    Occupation = "Software Developer", MonthlyIncome = 5000 },
-
-                new Tenant { FirstName = "Sarah", LastName = "Smith", Email = "sarah@example.com",
-                    PhoneNumber = "555-0103", EmergencyContactName = "Mike Smith",
-                    EmergencyContactPhone = "555-0104", DateOfBirth = new DateTime(1990, 8, 22),
-                    Occupation = "Teacher", MonthlyIncome = 4200 }
-            };
-
-            foreach (var tenant in tenants)
-            {
-                AddTenant(tenant);
+                System.Diagnostics.Debug.WriteLine($"Error inserting sample data: {ex.Message}");
             }
         }
 
         // Generic Execute Methods
-        public DataTable ExecuteQuery(string query, SQLiteParameter[] parameters = null)
+        public DataTable ExecuteQuery(string query, SqliteParameter[] parameters = null)
         {
-            using (var conn = new SQLiteConnection(connectionString))
+            var dt = new DataTable();
+            try
             {
-                conn.Open();
-                using (var cmd = new SQLiteCommand(query, conn))
+                using (var conn = new SqliteConnection(connectionString))
                 {
-                    if (parameters != null)
-                        cmd.Parameters.AddRange(parameters);
-
-                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    conn.Open();
+                    using (var cmd = new SqliteCommand(query, conn))
                     {
-                        DataTable dt = new DataTable();
-                        adapter.Fill(dt);
-                        return dt;
+                        if (parameters != null)
+                            cmd.Parameters.AddRange(parameters);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Query error: {ex.Message}\n{query}");
+                throw;
+            }
+            return dt;
+        }
+
+        public object ExecuteScalar(string query, SqliteParameter[] parameters = null)
+        {
+            try
+            {
+                using (var conn = new SqliteConnection(connectionString))
+                {
+                    conn.Open();
+                    using (var cmd = new SqliteCommand(query, conn))
+                    {
+                        if (parameters != null)
+                            cmd.Parameters.AddRange(parameters);
+                        return cmd.ExecuteScalar();
                     }
                 }
             }
-        }
-
-        public object ExecuteScalar(string query, SQLiteParameter[] parameters = null)
-        {
-            using (var conn = new SQLiteConnection(connectionString))
+            catch (Exception ex)
             {
-                conn.Open();
-                using (var cmd = new SQLiteCommand(query, conn))
-                {
-                    if (parameters != null)
-                        cmd.Parameters.AddRange(parameters);
-                    return cmd.ExecuteScalar();
-                }
+                System.Diagnostics.Debug.WriteLine($"Scalar error: {ex.Message}\n{query}");
+                throw;
             }
         }
 
-        public int ExecuteNonQuery(string query, SQLiteParameter[] parameters = null)
+        public int ExecuteNonQuery(string query, SqliteParameter[] parameters = null)
         {
-            using (var conn = new SQLiteConnection(connectionString))
+            try
             {
-                conn.Open();
-                using (var cmd = new SQLiteCommand(query, conn))
+                using (var conn = new SqliteConnection(connectionString))
                 {
-                    if (parameters != null)
-                        cmd.Parameters.AddRange(parameters);
-                    return cmd.ExecuteNonQuery();
+                    conn.Open();
+                    using (var cmd = new SqliteCommand(query, conn))
+                    {
+                        if (parameters != null)
+                            cmd.Parameters.AddRange(parameters);
+                        return cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"NonQuery error: {ex.Message}\n{query}");
+                throw;
             }
         }
 
@@ -250,20 +308,20 @@ namespace PropertyManagementSystem.Data
                           @Bathrooms, @SquareFootage, @MonthlyRent, @SecurityDeposit, 
                           @Status, @Description, @DateAdded)";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@Address", property.Address),
-                new SQLiteParameter("@City", property.City),
-                new SQLiteParameter("@PostalCode", property.PostalCode),
-                new SQLiteParameter("@PropertyType", property.PropertyType),
-                new SQLiteParameter("@Bedrooms", property.Bedrooms),
-                new SQLiteParameter("@Bathrooms", property.Bathrooms),
-                new SQLiteParameter("@SquareFootage", property.SquareFootage),
-                new SQLiteParameter("@MonthlyRent", property.MonthlyRent),
-                new SQLiteParameter("@SecurityDeposit", property.SecurityDeposit),
-                new SQLiteParameter("@Status", property.Status),
-                new SQLiteParameter("@Description", property.Description),
-                new SQLiteParameter("@DateAdded", property.DateAdded)
+                new SqliteParameter("@Address", property.Address ?? ""),
+                new SqliteParameter("@City", property.City ?? ""),
+                new SqliteParameter("@PostalCode", property.PostalCode ?? ""),
+                new SqliteParameter("@PropertyType", property.PropertyType ?? ""),
+                new SqliteParameter("@Bedrooms", property.Bedrooms),
+                new SqliteParameter("@Bathrooms", property.Bathrooms),
+                new SqliteParameter("@SquareFootage", property.SquareFootage),
+                new SqliteParameter("@MonthlyRent", property.MonthlyRent),
+                new SqliteParameter("@SecurityDeposit", property.SecurityDeposit),
+                new SqliteParameter("@Status", property.Status ?? "Available"),
+                new SqliteParameter("@Description", property.Description ?? ""),
+                new SqliteParameter("@DateAdded", property.DateAdded)
             };
 
             ExecuteNonQuery(sql, parameters);
@@ -287,20 +345,20 @@ namespace PropertyManagementSystem.Data
                           SecurityDeposit=@SecurityDeposit, Status=@Status, Description=@Description
                           WHERE PropertyId=@PropertyId";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@PropertyId", property.PropertyId),
-                new SQLiteParameter("@Address", property.Address),
-                new SQLiteParameter("@City", property.City),
-                new SQLiteParameter("@PostalCode", property.PostalCode),
-                new SQLiteParameter("@PropertyType", property.PropertyType),
-                new SQLiteParameter("@Bedrooms", property.Bedrooms),
-                new SQLiteParameter("@Bathrooms", property.Bathrooms),
-                new SQLiteParameter("@SquareFootage", property.SquareFootage),
-                new SQLiteParameter("@MonthlyRent", property.MonthlyRent),
-                new SQLiteParameter("@SecurityDeposit", property.SecurityDeposit),
-                new SQLiteParameter("@Status", property.Status),
-                new SQLiteParameter("@Description", property.Description)
+                new SqliteParameter("@PropertyId", property.PropertyId),
+                new SqliteParameter("@Address", property.Address ?? ""),
+                new SqliteParameter("@City", property.City ?? ""),
+                new SqliteParameter("@PostalCode", property.PostalCode ?? ""),
+                new SqliteParameter("@PropertyType", property.PropertyType ?? ""),
+                new SqliteParameter("@Bedrooms", property.Bedrooms),
+                new SqliteParameter("@Bathrooms", property.Bathrooms),
+                new SqliteParameter("@SquareFootage", property.SquareFootage),
+                new SqliteParameter("@MonthlyRent", property.MonthlyRent),
+                new SqliteParameter("@SecurityDeposit", property.SecurityDeposit),
+                new SqliteParameter("@Status", property.Status ?? "Available"),
+                new SqliteParameter("@Description", property.Description ?? "")
             };
 
             ExecuteNonQuery(sql, parameters);
@@ -309,7 +367,7 @@ namespace PropertyManagementSystem.Data
         public void DeleteProperty(int propertyId)
         {
             string sql = "DELETE FROM Properties WHERE PropertyId=@PropertyId";
-            var parameters = new SQLiteParameter[] { new SQLiteParameter("@PropertyId", propertyId) };
+            var parameters = new SqliteParameter[] { new SqliteParameter("@PropertyId", propertyId) };
             ExecuteNonQuery(sql, parameters);
         }
 
@@ -323,18 +381,18 @@ namespace PropertyManagementSystem.Data
                           @EmergencyContactName, @EmergencyContactPhone, @DateOfBirth, 
                           @Occupation, @MonthlyIncome, @DateAdded)";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@FirstName", tenant.FirstName),
-                new SQLiteParameter("@LastName", tenant.LastName),
-                new SQLiteParameter("@Email", tenant.Email),
-                new SQLiteParameter("@PhoneNumber", tenant.PhoneNumber),
-                new SQLiteParameter("@EmergencyContactName", tenant.EmergencyContactName),
-                new SQLiteParameter("@EmergencyContactPhone", tenant.EmergencyContactPhone),
-                new SQLiteParameter("@DateOfBirth", tenant.DateOfBirth),
-                new SQLiteParameter("@Occupation", tenant.Occupation),
-                new SQLiteParameter("@MonthlyIncome", tenant.MonthlyIncome),
-                new SQLiteParameter("@DateAdded", tenant.DateAdded)
+                new SqliteParameter("@FirstName", tenant.FirstName ?? ""),
+                new SqliteParameter("@LastName", tenant.LastName ?? ""),
+                new SqliteParameter("@Email", tenant.Email ?? ""),
+                new SqliteParameter("@PhoneNumber", tenant.PhoneNumber ?? ""),
+                new SqliteParameter("@EmergencyContactName", tenant.EmergencyContactName ?? ""),
+                new SqliteParameter("@EmergencyContactPhone", tenant.EmergencyContactPhone ?? ""),
+                new SqliteParameter("@DateOfBirth", tenant.DateOfBirth),
+                new SqliteParameter("@Occupation", tenant.Occupation ?? ""),
+                new SqliteParameter("@MonthlyIncome", tenant.MonthlyIncome),
+                new SqliteParameter("@DateAdded", tenant.DateAdded)
             };
 
             ExecuteNonQuery(sql, parameters);
@@ -348,7 +406,7 @@ namespace PropertyManagementSystem.Data
         public DataTable SearchTenants(string searchTerm)
         {
             string sql = "SELECT * FROM Tenants WHERE FirstName LIKE @search OR LastName LIKE @search OR Email LIKE @search";
-            var parameters = new SQLiteParameter[] { new SQLiteParameter("@search", $"%{searchTerm}%") };
+            var parameters = new SqliteParameter[] { new SqliteParameter("@search", $"%{searchTerm}%") };
             return ExecuteQuery(sql, parameters);
         }
 
@@ -360,18 +418,18 @@ namespace PropertyManagementSystem.Data
                           Occupation=@Occupation, MonthlyIncome=@MonthlyIncome
                           WHERE TenantId=@TenantId";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@TenantId", tenant.TenantId),
-                new SQLiteParameter("@FirstName", tenant.FirstName),
-                new SQLiteParameter("@LastName", tenant.LastName),
-                new SQLiteParameter("@Email", tenant.Email),
-                new SQLiteParameter("@PhoneNumber", tenant.PhoneNumber),
-                new SQLiteParameter("@EmergencyContactName", tenant.EmergencyContactName),
-                new SQLiteParameter("@EmergencyContactPhone", tenant.EmergencyContactPhone),
-                new SQLiteParameter("@DateOfBirth", tenant.DateOfBirth),
-                new SQLiteParameter("@Occupation", tenant.Occupation),
-                new SQLiteParameter("@MonthlyIncome", tenant.MonthlyIncome)
+                new SqliteParameter("@TenantId", tenant.TenantId),
+                new SqliteParameter("@FirstName", tenant.FirstName ?? ""),
+                new SqliteParameter("@LastName", tenant.LastName ?? ""),
+                new SqliteParameter("@Email", tenant.Email ?? ""),
+                new SqliteParameter("@PhoneNumber", tenant.PhoneNumber ?? ""),
+                new SqliteParameter("@EmergencyContactName", tenant.EmergencyContactName ?? ""),
+                new SqliteParameter("@EmergencyContactPhone", tenant.EmergencyContactPhone ?? ""),
+                new SqliteParameter("@DateOfBirth", tenant.DateOfBirth),
+                new SqliteParameter("@Occupation", tenant.Occupation ?? ""),
+                new SqliteParameter("@MonthlyIncome", tenant.MonthlyIncome)
             };
 
             ExecuteNonQuery(sql, parameters);
@@ -380,7 +438,7 @@ namespace PropertyManagementSystem.Data
         public void DeleteTenant(int tenantId)
         {
             string sql = "DELETE FROM Tenants WHERE TenantId=@TenantId";
-            var parameters = new SQLiteParameter[] { new SQLiteParameter("@TenantId", tenantId) };
+            var parameters = new SqliteParameter[] { new SqliteParameter("@TenantId", tenantId) };
             ExecuteNonQuery(sql, parameters);
         }
 
@@ -392,24 +450,24 @@ namespace PropertyManagementSystem.Data
                           VALUES (@PropertyId, @TenantId, @StartDate, @EndDate, 
                           @MonthlyRent, @SecurityDepositPaid, @Status, @Terms, @DateCreated)";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@PropertyId", lease.PropertyId),
-                new SQLiteParameter("@TenantId", lease.TenantId),
-                new SQLiteParameter("@StartDate", lease.StartDate),
-                new SQLiteParameter("@EndDate", lease.EndDate),
-                new SQLiteParameter("@MonthlyRent", lease.MonthlyRent),
-                new SQLiteParameter("@SecurityDepositPaid", lease.SecurityDepositPaid),
-                new SQLiteParameter("@Status", lease.Status),
-                new SQLiteParameter("@Terms", lease.Terms),
-                new SQLiteParameter("@DateCreated", lease.DateCreated)
+                new SqliteParameter("@PropertyId", lease.PropertyId),
+                new SqliteParameter("@TenantId", lease.TenantId),
+                new SqliteParameter("@StartDate", lease.StartDate),
+                new SqliteParameter("@EndDate", lease.EndDate),
+                new SqliteParameter("@MonthlyRent", lease.MonthlyRent),
+                new SqliteParameter("@SecurityDepositPaid", lease.SecurityDepositPaid),
+                new SqliteParameter("@Status", lease.Status ?? "Active"),
+                new SqliteParameter("@Terms", lease.Terms ?? ""),
+                new SqliteParameter("@DateCreated", lease.DateCreated)
             };
 
             ExecuteNonQuery(sql, parameters);
 
             // Update property status to Rented
             string updateProperty = "UPDATE Properties SET Status='Rented' WHERE PropertyId=@PropertyId";
-            var propParams = new SQLiteParameter[] { new SQLiteParameter("@PropertyId", lease.PropertyId) };
+            var propParams = new SqliteParameter[] { new SqliteParameter("@PropertyId", lease.PropertyId) };
             ExecuteNonQuery(updateProperty, propParams);
         }
 
@@ -425,7 +483,8 @@ namespace PropertyManagementSystem.Data
 
         public DataTable GetActiveLeases()
         {
-            string sql = @"SELECT l.*, p.Address as PropertyAddress, t.FirstName || ' ' || t.LastName as TenantName 
+            string sql = @"SELECT l.*, p.Address as PropertyAddress, t.FirstName || ' ' || t.LastName as TenantName,
+                          l.MonthlyRent
                           FROM Leases l
                           JOIN Properties p ON l.PropertyId = p.PropertyId
                           JOIN Tenants t ON l.TenantId = t.TenantId
@@ -442,16 +501,16 @@ namespace PropertyManagementSystem.Data
                           VALUES (@LeaseId, @PaymentDate, @Amount, @PaymentMethod, 
                           @CheckNumber, @ReferenceNumber, @Notes, @Status)";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@LeaseId", payment.LeaseId),
-                new SQLiteParameter("@PaymentDate", payment.PaymentDate),
-                new SQLiteParameter("@Amount", payment.Amount),
-                new SQLiteParameter("@PaymentMethod", payment.PaymentMethod),
-                new SQLiteParameter("@CheckNumber", payment.CheckNumber),
-                new SQLiteParameter("@ReferenceNumber", payment.ReferenceNumber),
-                new SQLiteParameter("@Notes", payment.Notes),
-                new SQLiteParameter("@Status", payment.Status)
+                new SqliteParameter("@LeaseId", payment.LeaseId),
+                new SqliteParameter("@PaymentDate", payment.PaymentDate),
+                new SqliteParameter("@Amount", payment.Amount),
+                new SqliteParameter("@PaymentMethod", payment.PaymentMethod ?? ""),
+                new SqliteParameter("@CheckNumber", payment.CheckNumber ?? ""),
+                new SqliteParameter("@ReferenceNumber", payment.ReferenceNumber ?? ""),
+                new SqliteParameter("@Notes", payment.Notes ?? ""),
+                new SqliteParameter("@Status", payment.Status ?? "Completed")
             };
 
             ExecuteNonQuery(sql, parameters);
@@ -491,7 +550,12 @@ namespace PropertyManagementSystem.Data
         {
             string sql = "SELECT SUM(MonthlyRent) FROM Leases WHERE Status = 'Active' AND EndDate >= date('now')";
             object result = ExecuteScalar(sql);
-            return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+
+            if (result != null && result != DBNull.Value)
+            {
+                return Convert.ToDecimal(result);
+            }
+            return 0;
         }
 
         public DataTable GetUpcomingPayments()

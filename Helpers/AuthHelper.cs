@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Data;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 using PropertyManagementSystem.Models;
 using PropertyManagementSystem.Data;
 
@@ -38,10 +38,10 @@ namespace PropertyManagementSystem.Helpers
             string hashedPassword = HashPassword(password);
 
             string query = "SELECT * FROM Users WHERE Username = @username AND PasswordHash = @passwordHash AND IsActive = 1";
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@username", username),
-                new SQLiteParameter("@passwordHash", hashedPassword)
+                new SqliteParameter("@username", username),
+                new SqliteParameter("@passwordHash", hashedPassword)
             };
 
             DataTable result = _db.ExecuteQuery(query, parameters);
@@ -71,7 +71,7 @@ namespace PropertyManagementSystem.Helpers
         {
             // Check if username exists
             string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username = @username";
-            var checkParams = new SQLiteParameter[] { new SQLiteParameter("@username", user.Username ?? "") };
+            var checkParams = new SqliteParameter[] { new SqliteParameter("@username", user.Username ?? "") };
             int count = Convert.ToInt32(_db.ExecuteScalar(checkQuery, checkParams));
 
             if (count > 0)
@@ -81,15 +81,15 @@ namespace PropertyManagementSystem.Helpers
             string insertQuery = @"INSERT INTO Users (Username, Email, PasswordHash, FullName, Role, IsActive, CreatedDate)
                                   VALUES (@username, @email, @passwordHash, @fullName, @role, @isActive, @createdDate)";
 
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@username", user.Username ?? ""),
-                new SQLiteParameter("@email", user.Email ?? ""),
-                new SQLiteParameter("@passwordHash", HashPassword(password)),
-                new SQLiteParameter("@fullName", user.FullName ?? user.Username ?? ""),
-                new SQLiteParameter("@role", user.Role ?? "Staff"),
-                new SQLiteParameter("@isActive", true),
-                new SQLiteParameter("@createdDate", DateTime.Now)
+                new SqliteParameter("@username", user.Username ?? ""),
+                new SqliteParameter("@email", user.Email ?? ""),
+                new SqliteParameter("@passwordHash", HashPassword(password)),
+                new SqliteParameter("@fullName", user.FullName ?? user.Username ?? ""),
+                new SqliteParameter("@role", user.Role ?? "Staff"),
+                new SqliteParameter("@isActive", true),
+                new SqliteParameter("@createdDate", DateTime.Now)
             };
 
             return _db.ExecuteNonQuery(insertQuery, parameters) > 0;
@@ -100,10 +100,10 @@ namespace PropertyManagementSystem.Helpers
         {
             string oldHash = HashPassword(oldPassword);
             string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username = @username AND PasswordHash = @oldHash";
-            var checkParams = new SQLiteParameter[]
+            var checkParams = new SqliteParameter[]
             {
-                new SQLiteParameter("@username", username),
-                new SQLiteParameter("@oldHash", oldHash)
+                new SqliteParameter("@username", username),
+                new SqliteParameter("@oldHash", oldHash)
             };
 
             int count = Convert.ToInt32(_db.ExecuteScalar(checkQuery, checkParams));
@@ -111,10 +111,10 @@ namespace PropertyManagementSystem.Helpers
                 return false;
 
             string updateQuery = "UPDATE Users SET PasswordHash = @newHash WHERE Username = @username";
-            var updateParams = new SQLiteParameter[]
+            var updateParams = new SqliteParameter[]
             {
-                new SQLiteParameter("@newHash", HashPassword(newPassword)),
-                new SQLiteParameter("@username", username)
+                new SqliteParameter("@newHash", HashPassword(newPassword)),
+                new SqliteParameter("@username", username)
             };
 
             return _db.ExecuteNonQuery(updateQuery, updateParams) > 0;
@@ -124,10 +124,10 @@ namespace PropertyManagementSystem.Helpers
         private void UpdateLastLogin(int userId)
         {
             string query = "UPDATE Users SET LastLoginDate = @loginDate WHERE UserId = @userId";
-            var parameters = new SQLiteParameter[]
+            var parameters = new SqliteParameter[]
             {
-                new SQLiteParameter("@loginDate", DateTime.Now),
-                new SQLiteParameter("@userId", userId)
+                new SqliteParameter("@loginDate", DateTime.Now),
+                new SqliteParameter("@userId", userId)
             };
             _db.ExecuteNonQuery(query, parameters);
         }

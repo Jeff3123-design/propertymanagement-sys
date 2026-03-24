@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using Microsoft.Data.Sqlite;
 using PropertyManagementSystem.Data;
 using PropertyManagementSystem.Helpers;
 using PropertyManagementSystem.Models;
@@ -107,7 +108,7 @@ namespace PropertyManagementSystem.Forms
                     {
                         int leaseId = Convert.ToInt32(cboLease.SelectedValue);
                         DataTable leaseData = db.ExecuteQuery("SELECT MonthlyRent FROM Leases WHERE LeaseId = @id",
-                            new System.Data.SQLite.SQLiteParameter[] { new System.Data.SQLite.SQLiteParameter("@id", leaseId) });
+                            new SqliteParameter[] { new SqliteParameter("@id", leaseId) });
 
                         if (leaseData.Rows.Count > 0 && leaseData.Rows[0]["MonthlyRent"] != DBNull.Value)
                         {
