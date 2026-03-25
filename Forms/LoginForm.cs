@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using PropertyManagementSystem.Data;
 using PropertyManagementSystem.Helpers;
 using PropertyManagementSystem.Models;
-
 using PropertyManagementSystem.Dashboards;
 
 namespace PropertyManagementSystem.Forms
@@ -15,8 +14,7 @@ namespace PropertyManagementSystem.Forms
         private DatabaseHelper db;
         private AuthHelper auth;
         private bool isDarkMode = false;
-        private Panel? loaderPanel;  // Made nullable
-        private ComboBox? cmbRole;    // Made nullable
+        private Panel? loaderPanel;
         private TextBox? txtUsername;
         private TextBox? txtPassword;
 
@@ -30,7 +28,7 @@ namespace PropertyManagementSystem.Forms
         private void InitializeComponent()
         {
             this.Text = "Property Management System";
-            this.Size = new Size(700, 750);
+            this.Size = new Size(500, 600);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.White;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -43,21 +41,21 @@ namespace PropertyManagementSystem.Forms
                 BackColor = Color.White
             };
 
-            // ===== HEADER WITH LOGO =====
+            // ===== HEADER WITH GRADIENT =====
             Panel header = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 140,
+                Height = 120,
                 BackColor = Color.FromArgb(0, 120, 212)
             };
             header.Paint += (s, e) => DrawGradientHeader(header, e);
 
-            // Try to load logo, if not found use text icon
+            // Logo/Icon
             PictureBox logo = new PictureBox
             {
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Size = new Size(70, 70),
-                Location = new Point(30, 35),
+                Size = new Size(60, 60),
+                Location = new Point(30, 30),
                 BackColor = Color.Transparent
             };
 
@@ -67,37 +65,36 @@ namespace PropertyManagementSystem.Forms
                     logo.Image = Image.FromFile("logo.png");
                 else
                 {
-                    // Create a simple colored square with text as fallback
-                    Bitmap bmp = new Bitmap(70, 70);
+                    Bitmap bmp = new Bitmap(60, 60);
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
                         g.Clear(Color.White);
-                        using (Font drawFont = new Font("Segoe UI", 36))
+                        using (Font drawFont = new Font("Segoe UI", 32))
                         using (SolidBrush drawBrush = new SolidBrush(Color.FromArgb(0, 120, 212)))
                         {
-                            g.DrawString("🏢", drawFont, drawBrush, new PointF(15, 10));
+                            g.DrawString("🏢", drawFont, drawBrush, new PointF(12, 8));
                         }
                     }
                     logo.Image = bmp;
                 }
             }
-            catch { /* Use default */ }
+            catch { }
 
             Label title = new Label
             {
                 Text = "Property Management System",
-                Font = new Font("Segoe UI", 20, FontStyle.Bold),
+                Font = new Font("Segoe UI", 18, FontStyle.Bold),
                 ForeColor = Color.White,
-                Location = new Point(120, 50),
+                Location = new Point(110, 40),
                 AutoSize = true,
                 BackColor = Color.Transparent
             };
 
-            // Dark Mode Toggle Button
+            // Dark Mode Toggle
             Button btnDarkMode = new Button
             {
                 Text = "🌙",
-                Location = new Point(620, 20),
+                Location = new Point(430, 15),
                 Size = new Size(40, 40),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.Transparent,
@@ -115,8 +112,8 @@ namespace PropertyManagementSystem.Forms
             // ===== LOGIN PANEL =====
             Panel loginPanel = new Panel
             {
-                Location = new Point(100, 180),
-                Size = new Size(500, 380),
+                Location = new Point(50, 150),
+                Size = new Size(400, 350),
                 BackColor = Color.White
             };
 
@@ -124,12 +121,26 @@ namespace PropertyManagementSystem.Forms
             Label lblWelcome = new Label
             {
                 Text = "Welcome Back!",
-                Font = new Font("Segoe UI", 18, FontStyle.Bold),
+                Font = new Font("Segoe UI", 20, FontStyle.Bold),
                 ForeColor = Color.FromArgb(0, 120, 212),
-                Location = new Point(50, 10),
-                Size = new Size(400, 40),
+                Location = new Point(0, 0),
+                Size = new Size(400, 45),
                 TextAlign = ContentAlignment.MiddleCenter
             };
+
+            Label lblSubWelcome = new Label
+            {
+                Text = "Please login to your account",
+                Font = new Font("Segoe UI", 10),
+                ForeColor = Color.Gray,
+                Location = new Point(0, 50),
+                Size = new Size(400, 25),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            int yPos = 100;
+            int controlWidth = 360;
+            int xPos = 20;
 
             // Username Field
             Label lblUsername = new Label
@@ -137,19 +148,22 @@ namespace PropertyManagementSystem.Forms
                 Text = "USERNAME",
                 Font = new Font("Segoe UI", 9, FontStyle.Bold),
                 ForeColor = Color.FromArgb(80, 80, 80),
-                Location = new Point(50, 70),
-                Size = new Size(400, 20)
+                Location = new Point(xPos, yPos),
+                Size = new Size(controlWidth, 20)
             };
+            yPos += 25;
 
             txtUsername = new TextBox
             {
-                Location = new Point(50, 95),
-                Width = 400,
+                Name = "txtUsername",
+                Location = new Point(xPos, yPos),
+                Width = controlWidth,
                 Height = 40,
                 Font = new Font("Segoe UI", 11),
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.FromArgb(250, 250, 250)
             };
+            yPos += 55;
 
             // Password Field
             Label lblPassword = new Label
@@ -157,50 +171,42 @@ namespace PropertyManagementSystem.Forms
                 Text = "PASSWORD",
                 Font = new Font("Segoe UI", 9, FontStyle.Bold),
                 ForeColor = Color.FromArgb(80, 80, 80),
-                Location = new Point(50, 150),
-                Size = new Size(400, 20)
+                Location = new Point(xPos, yPos),
+                Size = new Size(controlWidth, 20)
             };
+            yPos += 25;
 
             txtPassword = new TextBox
             {
-                Location = new Point(50, 175),
-                Width = 400,
+                Name = "txtPassword",
+                Location = new Point(xPos, yPos),
+                Width = controlWidth,
                 Height = 40,
                 Font = new Font("Segoe UI", 11),
                 PasswordChar = '*',
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.FromArgb(250, 250, 250)
             };
+            yPos += 55;
 
-            // ROLE SELECTION
-            Label lblRole = new Label
+            // Remember Me Checkbox
+            CheckBox chkRememberMe = new CheckBox
             {
-                Text = "SELECT ROLE",
-                Font = new Font("Segoe UI", 9, FontStyle.Bold),
-                ForeColor = Color.FromArgb(80, 80, 80),
-                Location = new Point(50, 230),
-                Size = new Size(400, 20)
+                Text = "Remember me",
+                Location = new Point(xPos, yPos),
+                Size = new Size(120, 25),
+                Font = new Font("Segoe UI", 9),
+                ForeColor = Color.FromArgb(80, 80, 80)
             };
-
-            cmbRole = new ComboBox
-            {
-                Location = new Point(50, 255),
-                Width = 400,
-                Height = 35,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Font = new Font("Segoe UI", 10),
-                BackColor = Color.White
-            };
-            cmbRole.Items.AddRange(new string[] { "Admin", "Manager", "Staff", "Tenant" });
-            cmbRole.SelectedIndex = 0;
+            yPos += 45;
 
             // Login Button
             Button btnLogin = new Button
             {
                 Text = "LOGIN",
-                Location = new Point(50, 310),
-                Width = 400,
-                Height = 48,
+                Location = new Point(xPos, yPos),
+                Width = controlWidth,
+                Height = 45,
                 BackColor = Color.FromArgb(0, 120, 212),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
@@ -212,7 +218,7 @@ namespace PropertyManagementSystem.Forms
 
             btnLogin.Click += (s, e) =>
             {
-                if (txtUsername == null || txtPassword == null || cmbRole == null)
+                if (txtUsername == null || txtPassword == null)
                     return;
 
                 if (string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Text))
@@ -224,7 +230,7 @@ namespace PropertyManagementSystem.Forms
 
                 ShowLoader();
 
-                System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 1500 }; // Use fully qualified name
+                System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 1000 };
                 t.Tick += (s2, e2) =>
                 {
                     t.Stop();
@@ -233,18 +239,8 @@ namespace PropertyManagementSystem.Forms
 
                     if (auth.Login(txtUsername.Text, txtPassword.Text))
                     {
-                        string selectedRole = cmbRole.SelectedItem.ToString();
                         string userRole = auth.CurrentUser?.Role ?? "Staff";
-
-                        // Verify role matches or allow based on permissions
-                        if (selectedRole != userRole && userRole != "Admin")
-                        {
-                            MessageBox.Show($"You are logged in as {userRole}. Please select the correct role.",
-                                "Role Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        OpenDashboard(selectedRole);
+                        OpenDashboard(userRole);
                     }
                     else
                     {
@@ -255,26 +251,28 @@ namespace PropertyManagementSystem.Forms
                 t.Start();
             };
 
-            // Enter key support
-            txtPassword.KeyPress += (s, e) => {
-                if (e.KeyChar == (char)Keys.Enter)
-                    btnLogin.PerformClick();
-            };
+            yPos += 55;
 
-            // Demo Credentials Label
-            Label lblDemo = new Label
+            // Register Link
+            LinkLabel lnkRegister = new LinkLabel
             {
-                Text = "Demo Credentials: admin / admin123",
-                Font = new Font("Segoe UI", 8),
-                ForeColor = Color.Gray,
-                Location = new Point(50, 370),
-                Size = new Size(400, 20),
-                TextAlign = ContentAlignment.MiddleCenter
+                Text = "Don't have an account? Register here",
+                Location = new Point(xPos + 100, yPos),
+                Size = new Size(200, 25),
+                Font = new Font("Segoe UI", 9),
+                TextAlign = ContentAlignment.MiddleCenter,
+                LinkColor = Color.FromArgb(0, 120, 212)
+            };
+            lnkRegister.Click += (s, e) => {
+                RegisterForm registerForm = new RegisterForm(db);
+                registerForm.ShowDialog();
             };
 
             loginPanel.Controls.AddRange(new Control[] {
-                lblWelcome, lblUsername, txtUsername, lblPassword, txtPassword,
-                lblRole, cmbRole, btnLogin, lblDemo
+                lblWelcome, lblSubWelcome,
+                lblUsername, txtUsername,
+                lblPassword, txtPassword,
+                chkRememberMe, btnLogin, lnkRegister
             });
 
             // ===== LOADER PANEL =====
@@ -283,7 +281,7 @@ namespace PropertyManagementSystem.Forms
                 Size = new Size(200, 80),
                 BackColor = Color.FromArgb(240, 240, 240),
                 Visible = false,
-                Location = new Point(250, 320),
+                Location = new Point(150, 250),
                 BorderStyle = BorderStyle.FixedSingle
             };
 
@@ -301,7 +299,7 @@ namespace PropertyManagementSystem.Forms
             Panel footer = new Panel
             {
                 Dock = DockStyle.Bottom,
-                Height = 45,
+                Height = 40,
                 BackColor = Color.FromArgb(248, 248, 248)
             };
 
@@ -325,9 +323,14 @@ namespace PropertyManagementSystem.Forms
 
             // Center login panel on resize
             this.Resize += (s, e) => {
-                loginPanel.Location = new Point((this.Width - loginPanel.Width) / 2, 180);
+                loginPanel.Location = new Point((this.Width - loginPanel.Width) / 2, 150);
                 if (loaderPanel != null)
-                    loaderPanel.Location = new Point((this.Width - loaderPanel.Width) / 2, 320);
+                    loaderPanel.Location = new Point((this.Width - loaderPanel.Width) / 2, 250);
+            };
+
+            // Set focus to username field
+            this.Shown += (s, e) => {
+                txtUsername?.Focus();
             };
         }
 
@@ -362,7 +365,6 @@ namespace PropertyManagementSystem.Forms
             }
         }
 
-        // ===== DARK MODE TOGGLE =====
         private void ToggleDarkMode(Control parent)
         {
             isDarkMode = !isDarkMode;

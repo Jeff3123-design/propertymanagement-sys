@@ -3,36 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\dashboards\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:dashboards\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\dashboards\\staffdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\dashboards\\staffdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:dashboards\\staffdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\dashboards\\managerdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\dashboards\\managerdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:dashboards\\managerdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\dashboards\\tenantdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\dashboards\\tenantdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:dashboards\\tenantdashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\propertymanagementsystem.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\propertymanagementsystem.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:propertymanagementsystem.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\helpers\\colorhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -62,11 +62,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "TenantDashboard.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Dashboards\\TenantDashboard.cs",
               "RelativeDocumentMoniker": "Dashboards\\TenantDashboard.cs",
@@ -74,12 +74,11 @@
               "RelativeToolTip": "Dashboards\\TenantDashboard.cs",
               "ViewState": "AQIAADMBAAAAAAAAAAAuwEQBAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T07:40:55.804Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T07:40:55.804Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "StaffDashboard.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Dashboards\\StaffDashboard.cs",
               "RelativeDocumentMoniker": "Dashboards\\StaffDashboard.cs",
@@ -87,12 +86,11 @@
               "RelativeToolTip": "Dashboards\\StaffDashboard.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAH8AAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T07:40:35.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T07:40:35.152Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ManagerDashboard.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Dashboards\\ManagerDashboard.cs",
               "RelativeDocumentMoniker": "Dashboards\\ManagerDashboard.cs",
@@ -100,38 +98,50 @@
               "RelativeToolTip": "Dashboards\\ManagerDashboard.cs",
               "ViewState": "AQIAAIMAAAAANDMzMzMbwIoAAACNAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T07:40:16.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T07:40:16.106Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "AdminDashboard.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Dashboards\\AdminDashboard.cs",
               "RelativeDocumentMoniker": "Dashboards\\AdminDashboard.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Dashboards\\AdminDashboard.cs",
               "RelativeToolTip": "Dashboards\\AdminDashboard.cs",
-              "ViewState": "AQIAAE8DAAAAAAAAAAAuwF0DAAABAAAA",
+              "ViewState": "AQIAANACAAAAaGZmZmb2v10DAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-25T07:39:56.529Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\LoginForm.cs",
               "RelativeDocumentMoniker": "Forms\\LoginForm.cs",
               "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\LoginForm.cs",
               "RelativeToolTip": "Forms\\LoginForm.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "ViewState": "AQIAAH4BAAAAAAAAAAAwwIwBAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-22T10:53:06.832Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
+              "Title": "RegisterForm.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "Forms\\RegisterForm.cs",
+              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\RegisterForm.cs",
+              "RelativeToolTip": "Forms\\RegisterForm.cs",
+              "ViewState": "AQIAADkBAAAAAAAAAAAwwEYBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-24T09:44:31.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "PropertyManagementSystem",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\PropertyManagementSystem.csproj",
               "RelativeDocumentMoniker": "PropertyManagementSystem.csproj",
@@ -139,20 +149,7 @@
               "RelativeToolTip": "PropertyManagementSystem.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-25T07:37:24.448Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RegisterForm.cs",
-              "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\RegisterForm.cs",
-              "RelativeDocumentMoniker": "Forms\\RegisterForm.cs",
-              "ToolTip": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\RegisterForm.cs",
-              "RelativeToolTip": "Forms\\RegisterForm.cs",
-              "ViewState": "AQIAAO4AAAAAAAAAAAAuwP8AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-24T09:44:31.239Z"
+              "WhenOpened": "2026-03-25T07:37:24.448Z"
             },
             {
               "$type": "Document",
@@ -192,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "MainForm.cs",
               "DocumentMoniker": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\Forms\\MainForm.cs",
               "RelativeDocumentMoniker": "Forms\\MainForm.cs",
@@ -200,8 +197,7 @@
               "RelativeToolTip": "Forms\\MainForm.cs",
               "ViewState": "AQIAAD0DAAAAkDMzMzMLwEEDAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T10:53:46.573Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-22T10:53:46.573Z"
             },
             {
               "$type": "Document",
