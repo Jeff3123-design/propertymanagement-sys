@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using PropertyManagementSystem.Data;
 using PropertyManagementSystem.Helpers;
+using PropertyManagementSystem.Models;
+
+using PropertyManagementSystem.Dashboards;
 
 namespace PropertyManagementSystem.Forms
 {
@@ -9,6 +14,11 @@ namespace PropertyManagementSystem.Forms
     {
         private DatabaseHelper db;
         private AuthHelper auth;
+        private bool isDarkMode = false;
+        private Panel? loaderPanel;  // Made nullable
+        private ComboBox? cmbRole;    // Made nullable
+        private TextBox? txtUsername;
+        private TextBox? txtPassword;
 
         public LoginForm()
         {
@@ -19,292 +29,375 @@ namespace PropertyManagementSystem.Forms
 
         private void InitializeComponent()
         {
-            this.Text = "Property Management System - Login";
-            this.Size = new System.Drawing.Size(480, 550);
+            this.Text = "Property Management System";
+            this.Size = new Size(700, 750);
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.BackColor = Color.White;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.BackColor = System.Drawing.Color.FromArgb(243, 242, 241);
 
-            // Main Panel to hold everything
-            TableLayoutPanel mainLayout = new TableLayoutPanel
+            // Main Panel
+            Panel mainPanel = new Panel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 3,
-                Padding = new Padding(0)
+                BackColor = Color.White
             };
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 120)); // Top panel
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // Middle content
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60)); // Bottom panel
 
-            // Top Panel with gradient effect
-            Panel topPanel = new Panel
+            // ===== HEADER WITH LOGO =====
+            Panel header = new Panel
             {
-                Dock = DockStyle.Fill,
-                BackColor = System.Drawing.Color.FromArgb(0, 120, 212)
+                Dock = DockStyle.Top,
+                Height = 140,
+                BackColor = Color.FromArgb(0, 120, 212)
             };
+            header.Paint += (s, e) => DrawGradientHeader(header, e);
 
-            // Logo/Icon Panel
-            Panel logoPanel = new Panel
+            // Try to load logo, if not found use text icon
+            PictureBox logo = new PictureBox
             {
-                Size = new Size(80, 80),
-                Location = new Point(40, 20),
-                BackColor = System.Drawing.Color.White,
-                BorderStyle = BorderStyle.None
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Size = new Size(70, 70),
+                Location = new Point(30, 35),
+                BackColor = Color.Transparent
             };
 
-            // Create a simple building icon using a label
-            Label buildingIcon = new Label
+            try
             {
-                Text = "🏢",
-                Font = new Font("Segoe UI", 48, FontStyle.Regular),
-                ForeColor = System.Drawing.Color.FromArgb(0, 120, 212),
-                Location = new Point(10, 10),
-                Size = new Size(60, 60),
-                TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
-                BackColor = System.Drawing.Color.Transparent
-            };
-            logoPanel.Controls.Add(buildingIcon);
+                if (System.IO.File.Exists("logo.png"))
+                    logo.Image = Image.FromFile("logo.png");
+                else
+                {
+                    // Create a simple colored square with text as fallback
+                    Bitmap bmp = new Bitmap(70, 70);
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(Color.White);
+                        using (Font drawFont = new Font("Segoe UI", 36))
+                        using (SolidBrush drawBrush = new SolidBrush(Color.FromArgb(0, 120, 212)))
+                        {
+                            g.DrawString("🏢", drawFont, drawBrush, new PointF(15, 10));
+                        }
+                    }
+                    logo.Image = bmp;
+                }
+            }
+            catch { /* Use default */ }
 
-            // Title Label
-            Label lblTitle = new Label
+            Label title = new Label
             {
                 Text = "Property Management System",
                 Font = new Font("Segoe UI", 20, FontStyle.Bold),
-                ForeColor = System.Drawing.Color.White,
-                Location = new Point(140, 35),
-                Size = new Size(300, 45),
-                TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
-                BackColor = System.Drawing.Color.Transparent
+                ForeColor = Color.White,
+                Location = new Point(120, 50),
+                AutoSize = true,
+                BackColor = Color.Transparent
             };
 
-            topPanel.Controls.Add(logoPanel);
-            topPanel.Controls.Add(lblTitle);
-
-            // Middle Panel - Login Form
-            Panel middlePanel = new Panel
+            // Dark Mode Toggle Button
+            Button btnDarkMode = new Button
             {
-                Dock = DockStyle.Fill,
-                BackColor = System.Drawing.Color.White,
-                Padding = new Padding(40, 30, 40, 30)
+                Text = "🌙",
+                Location = new Point(620, 20),
+                Size = new Size(40, 40),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 14),
+                Cursor = Cursors.Hand
             };
+            btnDarkMode.FlatAppearance.BorderSize = 0;
+            btnDarkMode.Click += (s, e) => ToggleDarkMode(mainPanel);
 
-            // Create a centered panel for login controls
+            header.Controls.Add(logo);
+            header.Controls.Add(title);
+            header.Controls.Add(btnDarkMode);
+
+            // ===== LOGIN PANEL =====
             Panel loginPanel = new Panel
             {
-                Width = 360,
-                Height = 320,
-                Location = new Point((middlePanel.Width - 360) / 2, 20),
-                Anchor = AnchorStyles.Top
+                Location = new Point(100, 180),
+                Size = new Size(500, 380),
+                BackColor = Color.White
             };
 
-            // Login Header
-            Label lblLoginHeader = new Label
+            // Welcome Message
+            Label lblWelcome = new Label
             {
                 Text = "Welcome Back!",
                 Font = new Font("Segoe UI", 18, FontStyle.Bold),
-                ForeColor = System.Drawing.Color.FromArgb(0, 120, 212),
-                Location = new Point(0, 0),
-                Size = new Size(360, 40),
-                TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+                ForeColor = Color.FromArgb(0, 120, 212),
+                Location = new Point(50, 10),
+                Size = new Size(400, 40),
+                TextAlign = ContentAlignment.MiddleCenter
             };
 
-            Label lblSubHeader = new Label
-            {
-                Text = "Please login to your account",
-                Font = new Font("Segoe UI", 10),
-                ForeColor = System.Drawing.Color.Gray,
-                Location = new Point(0, 45),
-                Size = new Size(360, 25),
-                TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            };
-
-            int yPos = 90;
-            int labelWidth = 80;
-            int controlWidth = 260;
-            int xPos = 20;
-
-            // Username Label and TextBox
+            // Username Field
             Label lblUsername = new Label
             {
-                Text = "Username",
-                Location = new Point(xPos, yPos),
-                Size = new Size(controlWidth, 20),
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                ForeColor = System.Drawing.Color.FromArgb(50, 49, 48)
+                Text = "USERNAME",
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                ForeColor = Color.FromArgb(80, 80, 80),
+                Location = new Point(50, 70),
+                Size = new Size(400, 20)
             };
-            yPos += 25;
 
-            TextBox txtUsername = new TextBox
+            txtUsername = new TextBox
             {
-                Name = "txtUsername",
-                Location = new Point(xPos, yPos),
-                Size = new Size(controlWidth, 35),
+                Location = new Point(50, 95),
+                Width = 400,
+                Height = 40,
                 Font = new Font("Segoe UI", 11),
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = System.Drawing.Color.FromArgb(250, 250, 250)
+                BackColor = Color.FromArgb(250, 250, 250)
             };
-            yPos += 50;
 
-            // Password Label and TextBox
+            // Password Field
             Label lblPassword = new Label
             {
-                Text = "Password",
-                Location = new Point(xPos, yPos),
-                Size = new Size(controlWidth, 20),
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                ForeColor = System.Drawing.Color.FromArgb(50, 49, 48)
+                Text = "PASSWORD",
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                ForeColor = Color.FromArgb(80, 80, 80),
+                Location = new Point(50, 150),
+                Size = new Size(400, 20)
             };
-            yPos += 25;
 
-            TextBox txtPassword = new TextBox
+            txtPassword = new TextBox
             {
-                Name = "txtPassword",
-                Location = new Point(xPos, yPos),
-                Size = new Size(controlWidth, 35),
+                Location = new Point(50, 175),
+                Width = 400,
+                Height = 40,
                 Font = new Font("Segoe UI", 11),
                 PasswordChar = '*',
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = System.Drawing.Color.FromArgb(250, 250, 250)
+                BackColor = Color.FromArgb(250, 250, 250)
             };
-            yPos += 50;
 
-            // Remember Me Checkbox
-            CheckBox chkRememberMe = new CheckBox
+            // ROLE SELECTION
+            Label lblRole = new Label
             {
-                Text = "Remember me",
-                Location = new Point(xPos, yPos),
-                Size = new Size(120, 25),
-                Font = new Font("Segoe UI", 9),
-                ForeColor = System.Drawing.Color.FromArgb(50, 49, 48)
+                Text = "SELECT ROLE",
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                ForeColor = Color.FromArgb(80, 80, 80),
+                Location = new Point(50, 230),
+                Size = new Size(400, 20)
             };
-            yPos += 40;
 
-            // Login Button (Blue)
+            cmbRole = new ComboBox
+            {
+                Location = new Point(50, 255),
+                Width = 400,
+                Height = 35,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 10),
+                BackColor = Color.White
+            };
+            cmbRole.Items.AddRange(new string[] { "Admin", "Manager", "Staff", "Tenant" });
+            cmbRole.SelectedIndex = 0;
+
+            // Login Button
             Button btnLogin = new Button
             {
                 Text = "LOGIN",
-                Location = new Point(xPos, yPos),
-                Size = new Size(controlWidth, 45),
-                BackColor = System.Drawing.Color.FromArgb(0, 120, 212),
-                ForeColor = System.Drawing.Color.White,
+                Location = new Point(50, 310),
+                Width = 400,
+                Height = 48,
+                BackColor = Color.FromArgb(0, 120, 212),
+                ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
                 Cursor = Cursors.Hand
             };
             btnLogin.FlatAppearance.BorderSize = 0;
-            btnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(0, 100, 180);
+            btnLogin.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 100, 180);
 
-            btnLogin.Click += (s, e) => {
+            btnLogin.Click += (s, e) =>
+            {
+                if (txtUsername == null || txtPassword == null || cmbRole == null)
+                    return;
+
                 if (string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Text))
                 {
                     MessageBox.Show("Please enter username and password.", "Login Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtUsername.Focus();
                     return;
                 }
 
-                if (auth.Login(txtUsername.Text, txtPassword.Text))
-                {
-                    MessageBox.Show($"Welcome {auth.CurrentUser.FullName}!", "Login Successful",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowLoader();
 
-                    MainForm mainForm = new MainForm(db, auth);
-                    mainForm.Show();
-                    this.Hide();
-                }
-                else
+                System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 1500 }; // Use fully qualified name
+                t.Tick += (s2, e2) =>
                 {
-                    MessageBox.Show("Invalid username or password.", "Login Failed",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtPassword.Clear();
-                    txtUsername.Focus();
-                }
+                    t.Stop();
+                    if (loaderPanel != null)
+                        loaderPanel.Visible = false;
+
+                    if (auth.Login(txtUsername.Text, txtPassword.Text))
+                    {
+                        string selectedRole = cmbRole.SelectedItem.ToString();
+                        string userRole = auth.CurrentUser?.Role ?? "Staff";
+
+                        // Verify role matches or allow based on permissions
+                        if (selectedRole != userRole && userRole != "Admin")
+                        {
+                            MessageBox.Show($"You are logged in as {userRole}. Please select the correct role.",
+                                "Role Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        OpenDashboard(selectedRole);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid credentials. Please check your username and password.",
+                            "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                };
+                t.Start();
             };
 
-            yPos += 55;
+            // Enter key support
+            txtPassword.KeyPress += (s, e) => {
+                if (e.KeyChar == (char)Keys.Enter)
+                    btnLogin.PerformClick();
+            };
 
-            // Register link
-            LinkLabel lnkRegister = new LinkLabel
+            // Demo Credentials Label
+            Label lblDemo = new Label
             {
-                Text = "Don't have an account? Register here",
-                Location = new Point(xPos + 50, yPos),
-                Size = new Size(200, 25),
-                Font = new Font("Segoe UI", 9),
-                TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
-                LinkColor = System.Drawing.Color.FromArgb(0, 120, 212)
-            };
-
-            lnkRegister.Click += (s, e) => {
-                RegisterForm registerForm = new RegisterForm(db);
-                registerForm.ShowDialog();
+                Text = "Demo Credentials: admin / admin123",
+                Font = new Font("Segoe UI", 8),
+                ForeColor = Color.Gray,
+                Location = new Point(50, 370),
+                Size = new Size(400, 20),
+                TextAlign = ContentAlignment.MiddleCenter
             };
 
             loginPanel.Controls.AddRange(new Control[] {
-                lblLoginHeader, lblSubHeader,
-                lblUsername, txtUsername,
-                lblPassword, txtPassword,
-                chkRememberMe, btnLogin, lnkRegister
+                lblWelcome, lblUsername, txtUsername, lblPassword, txtPassword,
+                lblRole, cmbRole, btnLogin, lblDemo
             });
 
-            // Center the login panel when form resizes
-            middlePanel.Resize += (s, e) => {
-                loginPanel.Location = new Point((middlePanel.Width - loginPanel.Width) / 2, 30);
+            // ===== LOADER PANEL =====
+            loaderPanel = new Panel
+            {
+                Size = new Size(200, 80),
+                BackColor = Color.FromArgb(240, 240, 240),
+                Visible = false,
+                Location = new Point(250, 320),
+                BorderStyle = BorderStyle.FixedSingle
             };
 
-            middlePanel.Controls.Add(loginPanel);
-
-            // Bottom Panel - Info
-            Panel bottomPanel = new Panel
+            Label loading = new Label
             {
+                Text = "Loading... ⏳",
                 Dock = DockStyle.Fill,
-                BackColor = System.Drawing.Color.FromArgb(243, 242, 241),
-                Padding = new Padding(10)
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12),
+                ForeColor = Color.FromArgb(0, 120, 212)
+            };
+            loaderPanel.Controls.Add(loading);
+
+            // ===== FOOTER =====
+            Panel footer = new Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 45,
+                BackColor = Color.FromArgb(248, 248, 248)
             };
 
-            Label lblInfo = new Label
+            Label footerText = new Label
             {
-                Text = "Default Admin Credentials:",
-                Font = new Font("Segoe UI", 8, FontStyle.Bold),
-                ForeColor = System.Drawing.Color.FromArgb(0, 120, 212),
-                Location = new Point(20, 5),
-                Size = new Size(150, 15)
-            };
-
-            Label lblAdmin = new Label
-            {
-                Text = "Username: admin  |  Password: admin123",
+                Text = "© 2024 Property Management System | All Rights Reserved",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe UI", 8),
-                ForeColor = System.Drawing.Color.Gray,
-                Location = new Point(20, 25),
-                Size = new Size(300, 15)
+                ForeColor = Color.Gray
             };
+            footer.Controls.Add(footerText);
 
-            Label lblVersion = new Label
+            // Add all to main panel
+            mainPanel.Controls.Add(header);
+            mainPanel.Controls.Add(loginPanel);
+            mainPanel.Controls.Add(loaderPanel);
+            mainPanel.Controls.Add(footer);
+
+            this.Controls.Add(mainPanel);
+
+            // Center login panel on resize
+            this.Resize += (s, e) => {
+                loginPanel.Location = new Point((this.Width - loginPanel.Width) / 2, 180);
+                if (loaderPanel != null)
+                    loaderPanel.Location = new Point((this.Width - loaderPanel.Width) / 2, 320);
+            };
+        }
+
+        // ===== ROLE DASHBOARD ROUTER =====
+        private void OpenDashboard(string role)
+        {
+            Form? dashboard = null;
+
+            switch (role)
             {
-                Text = "Version 1.0",
-                Font = new Font("Segoe UI", 7),
-                ForeColor = System.Drawing.Color.Gray,
-                Location = new Point(400, 5),
-                Size = new Size(60, 15),
-                TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            };
+                case "Admin":
+                    dashboard = new AdminDashboard();
+                    break;
+                case "Manager":
+                    dashboard = new ManagerDashboard();
+                    break;
+                case "Staff":
+                    dashboard = new StaffDashboard();
+                    break;
+                case "Tenant":
+                    dashboard = new TenantDashboard();
+                    break;
+                default:
+                    dashboard = new StaffDashboard();
+                    break;
+            }
 
-            bottomPanel.Controls.AddRange(new Control[] { lblInfo, lblAdmin, lblVersion });
+            if (dashboard != null)
+            {
+                dashboard.Show();
+                this.Hide();
+            }
+        }
 
-            // Add all panels to main layout
-            mainLayout.Controls.Add(topPanel, 0, 0);
-            mainLayout.Controls.Add(middlePanel, 0, 1);
-            mainLayout.Controls.Add(bottomPanel, 0, 2);
+        // ===== DARK MODE TOGGLE =====
+        private void ToggleDarkMode(Control parent)
+        {
+            isDarkMode = !isDarkMode;
+            Color bg = isDarkMode ? Color.FromArgb(30, 30, 30) : Color.White;
+            Color fg = isDarkMode ? Color.White : Color.Black;
+            ApplyTheme(parent, bg, fg);
+        }
 
-            this.Controls.Add(mainLayout);
+        private void ApplyTheme(Control control, Color bg, Color fg)
+        {
+            control.BackColor = bg;
+            control.ForeColor = fg;
+            foreach (Control c in control.Controls)
+                ApplyTheme(c, bg, fg);
+        }
 
-            // Set focus to username field
-            this.Shown += (s, e) => {
-                txtUsername.Focus();
-            };
+        private void ShowLoader()
+        {
+            if (loaderPanel != null)
+            {
+                loaderPanel.Visible = true;
+                loaderPanel.BringToFront();
+            }
+        }
+
+        private void DrawGradientHeader(Panel panel, PaintEventArgs e)
+        {
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                panel.ClientRectangle,
+                Color.FromArgb(0, 100, 180),
+                Color.FromArgb(0, 150, 220),
+                45F))
+            {
+                e.Graphics.FillRectangle(brush, panel.ClientRectangle);
+            }
         }
     }
 }
