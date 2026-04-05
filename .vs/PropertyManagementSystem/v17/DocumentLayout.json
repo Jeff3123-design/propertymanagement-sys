@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\admin\\Desktop\\propertymanagement-sys\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -11,7 +11,7 @@
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|c:\\users\\admin\\desktop\\propertymanagement-sys\\dashboards\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|C:\\Users\\admin\\Desktop\\propertymanagement-sys\\dashboards\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48104617-DBF2-41CE-A06F-ADA335106FFC}|PropertyManagementSystem.csproj|solutionrelative:dashboards\\admindashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -110,8 +110,7 @@
               "RelativeToolTip": "Dashboards\\AdminDashboard.cs",
               "ViewState": "AQIAANACAAAAaGZmZmb2v10DAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T07:39:56.529Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T07:39:56.529Z"
             },
             {
               "$type": "Document",
@@ -136,8 +135,7 @@
               "RelativeToolTip": "Forms\\RegisterForm.cs",
               "ViewState": "AQIAADkBAAAAAAAAAAAwwEYBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-24T09:44:31.239Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-24T09:44:31.239Z"
             },
             {
               "$type": "Document",
